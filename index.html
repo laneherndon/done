@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8">
+		<title>ET's Monsters</title>
+    <style>
+      :root {
+        /* title variables */
+        --titleshadow: #3e83f0;
+        --titlecolor: #000000;
+        --textsize: calc(0.025 * var(--folderwidth));
+				/* page variables */
+        --pagetop: 45vh;
+        --pagemargin: calc( 0.5 * calc(100vw - var(--folderwidth)));
+				/* folder variables */
+        --folderwidth: 900px;
+        --folderheight: 700px;
+        --foldercolor: #f2e696;
+        --folderbordercolor: #e0d279;
+        --folderborderdark: #d1c36d;
+        --folderbordersize: 10px;
+        --insidefolderwidth: calc(var(--pagemargin) + var(--folderbordersize));
+        --insidefolderheight: calc(var(--pagetop) + var(--folderbordersize));
+        --tabheight: calc(0.10 * var(--folderwidth));
+        --tabwidth: calc(0.24 * var(--folderwidth));
+				/* icon variables */
+        --iconcanvas: 190px;
+        --iconmargin: calc( 0.1 * var(--folderwidth));;
+        --secondrow: calc(var(--iconcanvas) + var(--iconmargin));
+        --righticon: calc(var(--insidefolderwidth) + calc( 0.85 * var(--iconmargin)));
+        --middleicon: calc(var(--iconcanvas) + var(--iconmargin));
+        --lefticon: calc( 2 * calc(var(--iconcanvas) + var(--iconmargin)));
+        --pixelsize: calc(var(--iconcanvas) / 19);
+      }
+      
+      body {
+				background-image: url(https://64.media.tumblr.com/41ed46e4b0264cec53a8c23d98390b05/tumblr_p9ayvofPPV1ualrc9o1_400.gifv) ;
+      	font-family: Courier New, Courier, monospace;
+      }
+      
+      img{
+        width: var(--iconcanvas);
+        height: var(--iconcanvas);
+      }
+      
+      a::hover {
+        cursor: pointer;
+      }
+      
+      .titlebox {
+        position: absolute;
+        display: inline-block;
+        left: calc(var(--pagemargin) + calc( 0.075 * var(--folderwidth)))
+      }
+      
+      .title {
+        min-width: var(--folderwidth);
+        color: var(--titlecolor);
+        font-size: calc(0.1 * var(--folderwidth));
+        text-shadow: calc(0.003 * var(--folderwidth)) calc(0.003 * var(--folderwidth)) var(--titleshadow) ;
+      }
+      
+      .mainfolder {
+        min-width: calc(4 * var(--tabwidth));
+        width: var(--folderwidth);
+        height: var(--folderheight);
+        display: inline-block;
+        
+        background-color: var(--foldercolor);
+        
+        border-radius: 0% 1% 1% 1%;
+        border: var(--folderbordersize) solid var(--folderbordercolor);
+        border-bottom: var(--folderheight) solid var(--folderbordercolor);
+        
+        margin-top: var(--pagetop);
+        margin-left: var(--pagemargin);
+        margin-right: var(--pagemargin);
+      }
+     
+      .foldertabs {
+        position: absolute;
+        display: inline-block;
+        min-width: calc(3* var(--tabwidth));
+				/* this fixes in div line breaks */
+        font-size: 0px;
+        
+        margin-top: calc(calc(var(--pagetop) - var(--tabheight)));
+        margin-left: var(--pagemargin);
+      }
+      
+      .activetab {
+        width: var(--tabwidth);
+        height: var(--tabheight);
+        
+        font-family: Courier New, Courier, monospace;
+        font-size: var(--textsize);
+        font-weight: bold;
+        
+        border-radius: 45% 45% 0% 0%;
+        border: var(--folderbordersize) solid var(--folderbordercolor);
+        border-bottom: none;
+        background-color: var(--foldercolor);
+      }  
+      
+      .inactivetab {
+        width: var(--tabwidth);
+        height: calc(0.96 * var(--tabheight));
+        
+        font-family: Courier New, Courier, monospace;
+        font-size: var(--textsize);
+        font-weight: bold;
+    
+        border-radius: 45% 45% 0% 0%;
+        border: var(--folderbordersize) solid var(--folderborderdark);
+        border-bottom: var(--folderbordersize) solid var(--folderborderdark);
+        background-color: var(--folderbordercolor);
+      }
+      
+      .inactivetab::hover {
+        border: var(--folderbordersize) solid var(--folderbordercolor);
+        border-bottom: none;
+        background-color: var(--foldercolor);
+      }
+      
+      .tabcover {
+        position: absolute;
+        width: calc(var(--tabwidth) - calc( 2 * var(--folderbordersize)));
+        height: calc(var(--folderbordersize));
+        
+        background-color: var(--foldercolor);
+        margin-left: calc(var(--insidefolderwidth));
+        margin-top: var(--pagetop);
+      }
+      .icons {
+        position: absolute;
+        min-width: calc(4 * var(--iconcanvas));
+				/* this fixes in div line breaks */
+        font-size: 0px;
+        
+        margin-top: calc(var(--insidefolderheight) +  var(--iconmargin));
+        margin-left: var(--righticon);
+      }
+      
+      .secondrowicons{
+        position: absolute;
+        min-width: calc(4 * var(--iconcanvas));
+				/* this fixes in div line breaks */
+        font-size: 0px;
+        
+        margin-top: calc(var(--insidefolderheight) +  var(--iconmargin) + var(--secondrow));
+        margin-left: var(--righticon);
+      }
+      
+      .icontext {
+        margin-top: calc( 2 * var(--iconmargin));
+        text-align: center;
+        font-size: var(--textsize);
+        font-weight: bold;
+      }
+      
+      .secondrowicontext {
+        margin-top: calc(0.5 * var(--iconmargin));
+        text-align: center;
+        font-size: var(--textsize);
+        font-weight: bold;
+      }
+      
+      .righticon {
+        position: absolute;
+        width: var(--iconcanvas);
+        height: var(--iconcanvas);
+      }
+      
+      .middleicon {
+        position: absolute;
+        width: var(--iconcanvas);
+        height: var(--iconcanvas);
+        margin-left: var(--middleicon);
+      }
+      
+      .lefticon {
+        position: absolute;
+        width: var(--iconcanvas);
+        height: var(--iconcanvas);
+        margin-left: var(--lefticon);
+      }
+      
+      .spiderpixel {
+        width: var(--pixelsize);
+        height: var(--pixelsize);
+        border: 1px solid transparent;
+        
+        box-shadow: 
+				/* backlegs */
+        calc(4 * var(--pixelsize)) calc(1 * var(--pixelsize)) var(--titlecolor),
+        calc(4 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(4 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(5 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(5 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(1 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        
+				/* middleback legs */
+        calc(3 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(4 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        /* middlefront legs */
+        calc(3 * var(--pixelsize)) calc(12 * var(--pixelsize)) var(--titlecolor),
+        calc(4 * var(--pixelsize)) calc(12 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(12 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(12 * var(--pixelsize)) var(--titlecolor),
+				/* front legs */
+        calc(4 * var(--pixelsize)) calc(16 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(13 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(12 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(12 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(13 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(16 * var(--pixelsize)) var(--titlecolor),
+        
+				/* body and head */
+        calc(7 * var(--pixelsize)) calc(5 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(10 * var(--pixelsize)) var(--titlecolor),     
+        calc(8 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(5 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(10 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(5 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),  
+        calc(9 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(10 * var(--pixelsize)) var(--titlecolor),  
+        calc(9 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(12 * var(--pixelsize)) var(--titlecolor),   
+        calc(10 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(10 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(5 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(10 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(5 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor);
+      }
+      
+      .alienpixel {
+        width: var(--pixelsize);
+        height: var(--pixelsize);
+        border: 1px solid transparent;
+        
+        box-shadow: 
+				/* head outline */
+        calc(2 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(2 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(2 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),
+        calc(2 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(3 * var(--pixelsize)) calc(10 * var(--pixelsize)) var(--titlecolor),
+        calc(3 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        calc(3 * var(--pixelsize)) calc(5 * var(--pixelsize)) var(--titlecolor),
+        calc(3 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(4 * var(--pixelsize)) calc(12 * var(--pixelsize)) var(--titlecolor),
+        calc(4 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(13 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),        
+        calc(6 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(1 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(1 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(16 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(16 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(1 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(1 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(16 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(1 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(13 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(12 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(5 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(10 * var(--pixelsize)) var(--titlecolor),
+        calc(16 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),
+        calc(16 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(16 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(16 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+				/* eyes */
+        calc(4 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(4 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(4 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor), 
+        calc(5 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor), 
+        calc(5 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(10 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(10 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(10 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(10 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        
+        calc(10 * var(--pixelsize)) calc(10 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(10 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(10 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(10 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor);
+      }
+      
+      .witchpixel {
+        width: var(--pixelsize);
+        height: var(--pixelsize);
+        border: 1px solid transparent;
+        
+        box-shadow: 
+				/* lid */
+        calc(1 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),
+        calc(1 * var(--pixelsize)) calc(5 * var(--pixelsize)) var(--titlecolor),
+        calc(1 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(2 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(2 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),
+        calc(2 * var(--pixelsize)) calc(5 * var(--pixelsize)) var(--titlecolor),
+        calc(2 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(2 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+      	calc(3 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),
+        calc(3 * var(--pixelsize)) calc(5 * var(--pixelsize)) var(--titlecolor),
+        calc(3 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(3 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(3 * var(--pixelsize)) calc(5 * var(--pixelsize)) var(--titlecolor),
+        calc(3 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(4 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(4 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),
+        calc(4 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(4 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(4 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(4 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(1 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(1 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(1 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(1 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(1 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(1 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(1 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(2 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(5 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(16 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),
+        calc(16 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(16 * var(--pixelsize)) calc(7 * var(--pixelsize)) var(--titlecolor),
+        calc(16 * var(--pixelsize)) calc(3 * var(--pixelsize)) var(--titlecolor),
+        calc(16 * var(--pixelsize)) calc(5 * var(--pixelsize)) var(--titlecolor),
+        calc(17 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(17 * var(--pixelsize)) calc(5 * var(--pixelsize)) var(--titlecolor),
+        calc(17 * var(--pixelsize)) calc(6 * var(--pixelsize)) var(--titlecolor),
+				/* cauldron body */
+        calc(2 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(2 * var(--pixelsize)) calc(10 * var(--pixelsize)) var(--titlecolor),
+        calc(2 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        calc(2 * var(--pixelsize)) calc(12 * var(--pixelsize)) var(--titlecolor),
+        calc(2 * var(--pixelsize)) calc(13 * var(--pixelsize)) var(--titlecolor),
+        calc(2 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(2 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(3 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(3 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(3 * var(--pixelsize)) calc(13 * var(--pixelsize)) var(--titlecolor),
+        calc(3 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(3 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(3 * var(--pixelsize)) calc(16 * var(--pixelsize)) var(--titlecolor),
+        calc(4 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(4 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(4 * var(--pixelsize)) calc(16 * var(--pixelsize)) var(--titlecolor),
+        calc(4 * var(--pixelsize)) calc(17 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(16 * var(--pixelsize)) var(--titlecolor),
+        calc(5 * var(--pixelsize)) calc(17 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(16 * var(--pixelsize)) var(--titlecolor),
+        calc(6 * var(--pixelsize)) calc(17 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(16 * var(--pixelsize)) var(--titlecolor),
+        calc(7 * var(--pixelsize)) calc(17 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(16 * var(--pixelsize)) var(--titlecolor),
+        calc(8 * var(--pixelsize)) calc(17 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(16 * var(--pixelsize)) var(--titlecolor),
+        calc(9 * var(--pixelsize)) calc(17 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(16 * var(--pixelsize)) var(--titlecolor),
+        calc(10 * var(--pixelsize)) calc(17 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(16 * var(--pixelsize)) var(--titlecolor),
+        calc(11 * var(--pixelsize)) calc(17 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(16 * var(--pixelsize)) var(--titlecolor),
+        calc(12 * var(--pixelsize)) calc(17 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(16 * var(--pixelsize)) var(--titlecolor),
+        calc(13 * var(--pixelsize)) calc(17 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(12 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(13 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(16 * var(--pixelsize)) var(--titlecolor),
+        calc(14 * var(--pixelsize)) calc(17 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(8 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(10 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(12 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(13 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(15 * var(--pixelsize)) calc(16 * var(--pixelsize)) var(--titlecolor),
+        calc(16 * var(--pixelsize)) calc(9 * var(--pixelsize)) var(--titlecolor),
+        calc(16 * var(--pixelsize)) calc(10 * var(--pixelsize)) var(--titlecolor),
+        calc(16 * var(--pixelsize)) calc(11 * var(--pixelsize)) var(--titlecolor),
+        calc(16 * var(--pixelsize)) calc(12 * var(--pixelsize)) var(--titlecolor),
+        calc(16 * var(--pixelsize)) calc(13 * var(--pixelsize)) var(--titlecolor),
+        calc(16 * var(--pixelsize)) calc(15 * var(--pixelsize)) var(--titlecolor),
+        calc(16 * var(--pixelsize)) calc(14 * var(--pixelsize)) var(--titlecolor),
+        calc(17 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor),
+        calc(17 * var(--pixelsize)) calc(4 * var(--pixelsize)) var(--titlecolor);
+      }
+      
+    </style>
+  </head> 
+	<body>
+    <div class="titlebox">
+      <h1 class="title">E.T.'s Monsters</h1>
+    </div>
+    <div class="foldertabs">
+      <button class="activetab" id="scarymonsters">Scary Monsters</button>
+			<a href="https://netnet.studio/?gh=laneherndon/ET-Horrible-Stories/main"><button class="inactivetab" id="horrificstories">Horrific Stories</button></a>
+      <a href="https://elllleeeee.itch.io/memoria"><button class="inactivetab" id="terriblegame">Terrible<br>Game</button></a>
+    </div>
+    <div class="tabcover"></div>
+    <div class="icons">
+    <a href="https://user-images.githubusercontent.com/81535024/145677257-3a48cf74-e486-4bee-8468-675f8369400d.JPG">
+      <div class="righticon">
+        <div class="spiderpixel"></div>
+        <p class="icontext">Arachnid</p>
+      </div>
+    </a>
+    <a href="https://user-images.githubusercontent.com/81535024/145677235-1b63ea72-baee-452a-9e4a-e69f6f4ebcb6.JPG">
+      <div class="middleicon">
+        <div class="alienpixel"></div>
+        <p class="icontext">Alien</p>
+      </div>
+    </a>
+    <a href="https://user-images.githubusercontent.com/81535024/145676931-e7e64fff-69f0-46c8-9722-1ff7f2c9cf29.JPG">
+      <div class="lefticon">
+        <div class="witchpixel"></div>
+        <p class="icontext">Witch</p>
+      </div>
+    </a>
+    </div>
+    <div class="secondrowicons">
+    <div class="righticon">
+      <image src="https://c.tenor.com/MRCIli40TYoAAAAi/under-construction90s-90s.gif" alt="under construction" class="placeholderright"></image>
+      <p class="secondrowicontext">Under<br>Construction</p>
+    </div>
+    <div class="middleicon">
+      <image src="https://c.tenor.com/MRCIli40TYoAAAAi/under-construction90s-90s.gif" alt="under construction" class="placeholderright"></image>
+      <p class="secondrowicontext">Under<br>Construction</p>
+    </div>
+    <div class="lefticon">
+      <image src="https://c.tenor.com/MRCIli40TYoAAAAi/under-construction90s-90s.gif" alt="under construction" class="placeholderright"></image>
+      <p class="secondrowicontext">Under<br>Construction</p>
+    </div>  
+    </div>
+		<div class="mainfolder"></div>
+	</body>
+</html>
